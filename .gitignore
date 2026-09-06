@@ -3,6 +3,12 @@
 Thumbs.db
 *.log
 
+# Claude Code internal config
+.claude/
+
+# Script logs
+scripts/update.log
+
 # Secretos
 .env
 .env.local

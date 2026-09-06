@@ -3,7 +3,12 @@
    ============================================================ */
 
 const METRICS_KEY = 'cr_metrics_v2';
-const ADMIN_PASSWORD = 'rattoproduction2025';
+const ADMIN_HASH = '00f7ff74cc4b0872422a59172af07fae48b3c68c55d6ae2ef5207b88e5188348';
+
+async function hashPassword(pw) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 const DEFAULT_METRICS = {
   yt_views:    '17.7M',
@@ -83,11 +88,12 @@ function closeAdminModal() {
   document.body.style.overflow = '';
 }
 
-function unlockAdmin() {
+async function unlockAdmin() {
   const pwInput = document.getElementById('admin-pw-input');
   if (!pwInput) return;
 
-  if (pwInput.value === ADMIN_PASSWORD) {
+  const hash = await hashPassword(pwInput.value);
+  if (hash === ADMIN_HASH) {
     adminUnlocked = true;
     populateAdminForm();
     document.getElementById('admin-pw-step').style.display  = 'none';
