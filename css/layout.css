@@ -1,0 +1,727 @@
+/* ============================================================
+   LAYOUT — grid, section wrappers, responsive breakpoints
+   ============================================================ */
+
+.container {
+  width: min(1200px, 100% - 2 * var(--space-md));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--space-xxl);
+  position: relative;
+}
+
+.section + .section::before {
+  content: '';
+  display: block;
+  width: min(600px, 80%);
+  height: 1px;
+  margin: 0 auto;
+  background: linear-gradient(to right, transparent, var(--accent-primary), transparent);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ── Scroll-progress bar ── */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(to right, var(--accent-primary), var(--accent-hover));
+  z-index: 1000;
+  transition: width 0.1s linear;
+}
+
+/* ── Nav ── */
+.nav {
+  position: fixed;
+  top: 3px;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  padding-block: var(--space-sm);
+  transition: background var(--transition-base), backdrop-filter var(--transition-base);
+}
+
+.nav.scrolled {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.nav__logo {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, var(--text-primary) 40%, var(--accent-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.nav__links a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color var(--transition-base);
+}
+
+.nav__links a:hover,
+.nav__links a.active {
+  color: var(--accent-primary);
+}
+
+.nav__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: var(--space-xs);
+}
+
+.nav__hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+.nav__hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__hamburger.open span:nth-child(2) { opacity: 0; }
+.nav__hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Hero ── */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+  padding-top: 80px;
+  background:
+    linear-gradient(135deg, rgba(7,17,26,0.97) 0%, rgba(13,31,45,0.4) 50%, rgba(7,17,26,0.97) 100%),
+    var(--bg-deep);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(29,165,216,0.06) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 2-column: text left, photo right */
+.hero__layout {
+  display: grid;
+  grid-template-columns: 1fr 460px;
+  align-items: center;
+  gap: var(--space-xl);
+  width: 100%;
+  padding-block: var(--space-xl) var(--space-xxl);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  padding-left: var(--space-lg);
+}
+
+.hero__photo-area {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* ── Stats band ── */
+.stats-band {
+  overflow: hidden;
+  border-block: 1px solid var(--glass-border);
+  background: rgba(29, 165, 216, 0.03);
+  padding-block: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.stats-band::before,
+.stats-band::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.stats-band::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-deep), transparent);
+}
+
+.stats-band::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-deep), transparent);
+}
+
+.stats-band__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+/* ── About split — photo left, text right ── */
+.about__grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: var(--space-xxl);
+  align-items: start;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+/* ── Metrics grid ── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+/* ── Audience grid ── */
+.audience-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+
+/* ── Packages grid ── */
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+/* ── Contact layout — 2 columns ── */
+.contact__inner {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--space-xl);
+  align-items: start;
+  max-width: 1000px;
+  margin-inline: auto;
+}
+
+/* ── Footer ── */
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  padding-block: var(--space-lg);
+  border-top: 1px solid var(--glass-border);
+}
+
+/* ── Mobile nav overlay ── */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 799;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.nav-overlay.open {
+  display: block;
+}
+
+/* ============================================================
+   RESPONSIVE — 900px
+   ============================================================ */
+@media (max-width: 900px) {
+  .nav__links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: min(300px, 80vw);
+    height: 100svh;
+    background: #0a1929;
+    border-left: 1px solid var(--glass-border);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 6rem var(--space-lg) var(--space-lg);
+    gap: var(--space-lg);
+    transition: right var(--transition-base);
+    z-index: 800;
+  }
+
+  .nav__links.open {
+    right: 0;
+  }
+
+  .nav__links a {
+    font-size: 1.1rem;
+  }
+
+  .nav__hamburger {
+    display: flex;
+    z-index: 850;
+  }
+
+  .hero__layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    padding-block: var(--space-lg) var(--space-xl);
+  }
+
+  /* Remove extra inner padding — container handles the side margins */
+  .hero__content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .hero__photo-frame {
+    width: min(360px, 90vw);
+    height: auto;
+    aspect-ratio: 4 / 5;
+  }
+
+  .about__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .about__photo-col {
+    display: none;
+  }
+
+  .audience-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+  }
+
+  .about__photo {
+    height: 400px;
+  }
+
+  .auspicia-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  /* Auspicia: center text on tablet/mobile */
+  .auspicia-text,
+  .auspicia-cta {
+    text-align: center;
+  }
+
+  .auspicia-eyebrow {
+    justify-content: center;
+  }
+
+  .auspicia-desc {
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .auspicia-stats-row {
+    justify-content: center;
+  }
+
+  /* WSP button full width on all mobile sizes */
+  .btn-wsp {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .packages-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contact__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .footer__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — 500px
+   ============================================================ */
+@media (max-width: 500px) {
+  :root {
+    --space-xxl: 2.5rem;
+    --space-xl: 2rem;
+  }
+
+  .metrics-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: var(--space-sm);
+    padding-bottom: var(--space-sm);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .metrics-grid::-webkit-scrollbar { display: none; }
+
+  .metrics-grid .metric-card {
+    flex: 0 0 260px;
+    scroll-snap-align: start;
+  }
+
+  .audience-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .packages-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE EXTENDED — global overflow guard
+   ============================================================ */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* ============================================================
+   RESPONSIVE EXTENDED — 900px additions
+   ============================================================ */
+@media (max-width: 900px) {
+
+  /* Program card split → stack */
+  .program-card__inner--split {
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .program-card__photo-col {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .program-card__photo {
+    height: 260px;
+  }
+
+  /* Hide decorative rings (cause overflow) */
+  .ring-1, .ring-2 { display: none; }
+
+  /* Hero floating stats — smaller */
+  .hero__floating-stat {
+    padding: 0.45rem 0.85rem;
+    max-width: 180px;
+  }
+
+  /* Footer right side — align center when stacked */
+  .footer__inner > div:last-child {
+    align-items: center;
+  }
+
+  .footer__legal-links {
+    justify-content: center;
+  }
+
+  /* Metele carousel header */
+  .metele-carousel-header {
+    text-align: center;
+  }
+
+  .metele-carousel-header .section-header {
+    align-items: center;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE EXTENDED — 600px (mid-mobile)
+   ============================================================ */
+@media (max-width: 600px) {
+
+  /* Less side margin on mobile — prevents double-margin with card padding */
+  .container {
+    width: min(1200px, 100% - 1.5rem);
+  }
+
+  /* Auspicia: compact visual column */
+  .auspicia-big-card {
+    padding: var(--space-md);
+  }
+
+  .auspicia-big-num {
+    font-size: clamp(3rem, 14vw, 5rem);
+  }
+
+  .auspicia-platform-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+  }
+
+  .auspicia-platform-item {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: 0.65rem var(--space-md);
+  }
+
+  .auspicia-platform-count {
+    font-size: 1rem;
+  }
+
+  .auspicia-stat-pill {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .auspicia-title {
+    font-size: clamp(2.4rem, 10vw, 4rem);
+  }
+
+
+  /* Hero eyebrow: kill letter-spacing so it fits one or two lines cleanly */
+  .hero__pre {
+    letter-spacing: 0.05em;
+    font-size: 0.7rem;
+    white-space: normal;
+  }
+
+  .hero__tagline {
+    letter-spacing: 0.07em;
+    font-size: 0.9rem;
+  }
+
+  /* Hero: clip so no absolute element escapes the photo area */
+  .hero__photo-area {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+  }
+
+  /* Floating stats: completely off on all mobile */
+  .hero__floating-stat { display: none; }
+
+  .hero__photo-frame {
+    width: min(300px, 84vw);
+    height: auto;
+    aspect-ratio: 3 / 4;
+  }
+
+  /* Social links: smaller pills */
+  .hero__social-link {
+    min-width: 44px;
+    padding: 0.45rem 0.55rem;
+  }
+
+  /* Floating stats: scale down */
+  .hero__floating-stat__num {
+    font-size: 1.1rem;
+  }
+
+  /* Program card padding */
+  .program-card {
+    padding: var(--space-lg);
+  }
+
+  /* Contact info card */
+  .contact__info-card {
+    text-align: left;
+  }
+
+  /* Auspicia pills: single column, horizontal layout */
+  .auspicia-stats-row {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .auspicia-stat-pill {
+    flex: 1 1 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.65rem 1rem;
+    text-align: left;
+  }
+
+  .auspicia-formats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE EXTENDED — 500px (mobile) additions
+   ============================================================ */
+@media (max-width: 500px) {
+
+  /* Hide floating stats on mobile (cluttered) */
+  .hero__floating-stat { display: none; }
+
+  /* CTAs: stack full width */
+  .hero__ctas {
+    flex-direction: column;
+  }
+
+  .hero__ctas .btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Social links: wrap if needed */
+  .hero__social {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  /* Hero name: tighter on very small screens */
+  .hero__name {
+    font-size: clamp(2.8rem, 13vw, 4.5rem);
+    line-height: 0.88;
+  }
+
+  /* Program card: compact on mobile */
+  .program-card {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .program-card__photo {
+    height: 200px;
+  }
+
+  /* Schedule grid → single column */
+  .program-card__schedule-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  /* About name: allow wrap on tiny screens */
+  .about__name-title {
+    white-space: normal;
+    font-size: clamp(1.4rem, 8vw, 2.2rem);
+  }
+
+  /* Metrics: already swipeable, ensure scrollbar hidden */
+  .metrics-grid::-webkit-scrollbar { display: none; }
+
+  /* Reduce card padding on mobile — less double-margin effect */
+  .stat-card,
+  .metric-card,
+  .audience-card,
+  .package-card,
+  .contact__info-card,
+  .auspicia-big-card {
+    padding: var(--space-sm);
+  }
+
+  /* Auspicia pills: stack */
+  .auspicia-stat-pill {
+    flex: 1 1 100%;
+  }
+
+  /* WSP button full width on mobile */
+  .btn-wsp {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Cookie banner: stack */
+  .cookie-banner {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  .cookie-banner__inner {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .cookie-banner__actions {
+    width: 100%;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .cookie-banner__btn {
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Footer: center everything */
+  .footer__inner {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer__legal-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem 0.5rem;
+  }
+
+  /* Section headers: center on mobile */
+  .section--auspicia .section-header,
+  .section--contact .section-header {
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Ratto section */
+  .ratto-inner {
+    padding-inline: var(--space-sm);
+  }
+
+  /* Slider buttons: slightly smaller */
+  .slider-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+}

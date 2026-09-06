@@ -1,0 +1,296 @@
+/* ============================================================
+   ANIMATIONS & MICRO-INTERACTIONS
+   ============================================================ */
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-5 { transition-delay: 0.40s; }
+
+/* ── Pulse dot (hero live badge) ── */
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 6px rgba(29,165,216,0.6); }
+  50%       { transform: scale(1.6); opacity: 0.5; box-shadow: 0 0 20px rgba(29,165,216,0.3); }
+}
+
+/* ── Floating orbs ── */
+@keyframes float-orb {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-30px) scale(1.04); }
+}
+
+.orb-1 { animation: float-orb 12s ease-in-out infinite; }
+.orb-2 { animation: float-orb 16s ease-in-out infinite 2s; }
+.orb-3 { animation: float-orb 10s ease-in-out infinite 4s; }
+
+/* ── Hero name gradient shimmer ── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero__name {
+  background-size: 200% auto;
+  animation: shimmer 9s linear infinite;
+}
+
+/* ── Counter numbers ── */
+.counter {
+  display: inline-block;
+  transition: color 0.3s;
+}
+
+/* ── Glow pulse on metric values (once revealed) ── */
+@keyframes glow-fade {
+  0%   { text-shadow: 0 0 0px rgba(29,165,216,0); }
+  40%  { text-shadow: 0 0 20px rgba(29,165,216,0.5); }
+  100% { text-shadow: 0 0 0px rgba(29,165,216,0); }
+}
+
+.stat-card.revealed .stat-card__number {
+  animation: glow-fade 1.6s ease-out 0.5s forwards;
+}
+
+/* ── Bar fill animation trigger ── */
+.bar-fill.animate {
+  /* width is set by JS; transition fires on class add */
+}
+
+/* ── Hero entrance stagger ── */
+.hero__tagline-row,
+.hero__name,
+.hero__tagline,
+.hero__badges,
+.hero__ctas {
+  opacity: 0;
+  transform: translateY(22px);
+  animation: hero-in 0.85s var(--ease-out) forwards;
+}
+
+.hero__tagline-row { animation-delay: 0.15s; }
+.hero__name        { animation-delay: 0.28s; }
+.hero__tagline     { animation-delay: 0.42s; }
+.hero__badges      { animation-delay: 0.55s; }
+.hero__ctas        { animation-delay: 0.68s; }
+.hero__social      { animation-delay: 0.78s; opacity: 0; transform: translateY(22px); animation: hero-in 0.85s var(--ease-out) 0.78s forwards; }
+
+.hero__photo-area {
+  opacity: 0;
+  transform: translateX(32px);
+  animation: hero-in-right 1s var(--ease-out) 0.8s forwards;
+}
+
+@keyframes hero-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-in-right {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Ring pulse (hero visual) ── */
+@keyframes ring-pulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.025);
+  }
+}
+
+/* ── Floating stat cards ── */
+@keyframes float-stat-1 {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50%       { transform: translateY(-8px) translateX(2px); }
+}
+
+@keyframes float-stat-2 {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50%       { transform: translateY(6px) translateX(-2px); }
+}
+
+/* ── Marquee (stats band) ── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.stats-band:hover .stats-band__track {
+  animation-play-state: paused;
+}
+
+/* ── Nav link underline ── */
+.nav__links a {
+  position: relative;
+}
+
+.nav__links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background: var(--accent-primary);
+  transition: width var(--transition-base);
+}
+
+.nav__links a:hover::after,
+.nav__links a.active::after {
+  width: 100%;
+}
+
+/* ── Section header — always stacked vertically ── */
+.section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  margin-bottom: var(--space-xl);
+}
+
+.section-title-line {
+  display: inline-block;
+  position: relative;
+  padding-bottom: 0.25em;
+}
+
+.section-title-line::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, var(--accent-primary), transparent);
+  border-radius: 2px;
+}
+
+#metele-diente .section-title-line::after {
+  background: linear-gradient(to right, var(--accent-orange), transparent);
+}
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(29, 165, 216, 0.28);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(29, 165, 216, 0.5);
+}
+
+/* ── Selection color ── */
+::selection {
+  background: rgba(29, 165, 216, 0.3);
+  color: #fff;
+}
+
+/* ── Skeleton for metrics ── */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.65; }
+}
+
+.skeleton {
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Package card icon float ── */
+.package-card:hover .package-card__icon {
+  animation: icon-bounce 0.5s var(--ease-out);
+}
+
+@keyframes icon-bounce {
+  0%   { transform: translateY(0); }
+  40%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* ── Metric card platform accent on reveal ── */
+.metric-card.revealed .metric-row__value {
+  animation: count-in 0.4s var(--ease-out) 0.2s both;
+}
+
+@keyframes count-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── prefers-reduced-motion: disable all non-essential animation ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .stats-band__track {
+    animation: none;
+  }
+
+  /* Reveal elements immediately — no fade/slide */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Hero entrance — show immediately */
+  .hero__tagline-row,
+  .hero__name,
+  .hero__tagline,
+  .hero__badges,
+  .hero__ctas,
+  .hero__social,
+  .hero__social,
+  .hero__photo-area {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  /* Orbs — stop floating */
+  .orb-1, .orb-2, .orb-3 { animation: none; }
+
+  /* Shimmer on hero name — off */
+  .hero__name { animation: none; }
+
+  /* Bar fills — show instantly */
+  .bar-fill {
+    transition: none !important;
+  }
+}

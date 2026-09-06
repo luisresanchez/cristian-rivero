@@ -1,0 +1,20 @@
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+
+# Secretos
+.env
+.env.local
+secrets.json
+
+# Dependencias (si en algún momento se agrega Node)
+node_modules/
+
+# Build outputs
+dist/
+.vercel/
+
+# Archivos temporales
+*.tmp
+*.bak
