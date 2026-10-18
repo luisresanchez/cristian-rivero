@@ -8,7 +8,7 @@ function fmt(n, dec = 1) {
   return n.toLocaleString('es-PE');
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   const key = process.env.YOUTUBE_API_KEY;
   if (!key) {
     return res.status(500).json({ error: 'YOUTUBE_API_KEY no configurada' });
