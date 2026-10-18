@@ -153,10 +153,24 @@ function showToast(msg, type = 'success') {
   setTimeout(() => toast.classList.remove('show'), 3500);
 }
 
+/* ── Fetch live YouTube metrics from Vercel API ── */
+async function fetchLiveMetrics() {
+  try {
+    const res = await fetch('/api/youtube');
+    if (!res.ok) return;
+    const live = await res.json();
+    if (live.error) return;
+    const merged = { ...loadMetrics(), ...live };
+    renderMetrics(merged);
+    saveMetrics(merged);
+  } catch {}
+}
+
 /* ── Wire up events after DOM ready ── */
 document.addEventListener('DOMContentLoaded', () => {
   const metrics = loadMetrics();
   renderMetrics(metrics);
+  fetchLiveMetrics();
 
   const adminBtn = document.getElementById('admin-trigger');
   if (adminBtn) adminBtn.addEventListener('click', openAdminModal);
